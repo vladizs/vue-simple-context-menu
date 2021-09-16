@@ -10,9 +10,25 @@
         :key="index"
         @click.stop="optionClicked(option)"
         class="vue-simple-context-menu__item"
-        :class="[option.class, (option.type === 'divider' ? 'vue-simple-context-menu__divider' : '')]"
+        :class="[option.class,
+        (option.type === 'divider' ? 'vue-simple-context-menu__divider' : ''),
+        isOptionHasChild(option) ? 'vue-simple-context-menu__parental' : '']"
       >
         <span v-html="option.name"></span>
+        <ul
+          class="vue-simple-context-menu__parental__child-options"
+          v-if="isOptionHasChild(option)"
+        >
+          <li
+            v-for="(childOption, childOptionIndex) in option.childOptions"
+            :key="childOptionIndex"
+            @click.stop="optionClicked(childOption)"
+            class="vue-simple-context-menu__item"
+            :class="[childOption.class, (childOption.type === 'divider' ? 'vue-simple-context-menu__divider' : '')]"
+          >
+            <span v-html="childOption.name">123</span>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
@@ -94,6 +110,14 @@ export default {
       if (event.keyCode === 27) {
         this.hideContextMenu();
       }
+    },
+    isOptionHasChild (option) {
+      if (option.childOptions &&
+        Array.isArray(option.childOptions) &&
+        option.childOptions.length) {
+          return true
+        }
+      return false;
     }
   },
   mounted () {
@@ -154,6 +178,38 @@ $black: #333;
     background-clip: content-box;
     pointer-events: none;
   }
+
+  & &__parental {
+    position: relative;
+    &:hover {
+      .vue-simple-context-menu__parental__child-options {
+        display: block
+      }
+    }
+    &__child-options {
+      display: none;
+      background-color: $light-grey;
+      box-shadow: 0 3px 6px 0 rgba($black, 0.2);
+      position: absolute;
+      top: 0;
+      left: 100%;
+      padding: 0;
+      li {
+        padding: 5px 15px;
+        span {
+          white-space: nowrap;
+        }
+      }
+      li {
+        &:first-of-type, &:last-of-type {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+
 
   // Have to use the element so we can make use of `first-of-type` and
   // `last-of-type`

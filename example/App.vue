@@ -142,7 +142,7 @@ export default {
         {
           name: 'Pam',
           job: 'Receptionist'
-        }
+        },
       ],
       itemArray2: [
         {
@@ -173,6 +173,17 @@ export default {
         {
           name: '<em>Delete</em>',
           slug: 'delete'
+        },
+        {
+          name: 'Test',
+          childOptions: [
+            {
+              name: 'Inner test 1'
+            },
+            {
+              name: 'Inner test 2'
+            }
+          ]
         }
       ],
       optionsArray2: [
@@ -184,6 +195,17 @@ export default {
         {
           name: 'Remove Star',
           slug: 'remove-star'
+        },
+        {
+          name: 'Test',
+          childOptions: [
+            {
+              name: 'Inner test 1'
+            },
+            {
+              name: 'Inner test 2'
+            }
+          ]
         }
       ]
     }
